@@ -1,0 +1,35 @@
+diff --git a/src/dowall.c b/src/dowall.c
+index 1a6ab28..2f3d66f 100644
+--- a/src/dowall.c
++++ b/src/dowall.c
+@@ -130,7 +130,7 @@ void wall(char *text, int fromshutdown, int remote)
+ 	struct utmp		*utmp;
+ 	time_t			t;
+ 	char			term[UT_LINESIZE+6];
+-	char			line[81];
++	char			message[401], line[411];
+ 	char                    hostname[256]; /* HOST_NAME_MAX+1 */
+ 	char			*date, *p;
+ 	char			*user, *tty;
+@@ -163,15 +163,17 @@ void wall(char *text, int fromshutdown, int remote)
+ 	*p = 0;
+ 	
+ 	if (remote) {
+-		snprintf(line, sizeof(line),
+-			"\007\r\nRemote broadcast message (%s):\r\n\r\n",
++		snprintf(message, sizeof(message),
++			"Remote broadcast message (%s):",
+ 			date);
+ 	} else {
+-		snprintf(line, sizeof(line),
+-			"\007\r\nBroadcast message from %s@%s %s(%s):\r\n\r\n",
++		snprintf(message, sizeof(message),
++			"Broadcast message from %s@%s %s(%s):",
+ 			user, hostname, tty, date);
+ 	}
+ 
++	snprintf(line, sizeof(line), "\007\r\n%s\r\n\r\n", message);
++
+ 	/*
+ 	 *	Fork to avoid us hanging in a write()
+ 	 */

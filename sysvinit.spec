@@ -1,7 +1,7 @@
 Summary: Programs which control basic system processes
 Name: sysvinit
 Version: 2.87
-Release: 3.dsf%{?dist}
+Release: 4.dsf%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: https://alioth.debian.org/frs/download.php/3060/sysvinit-%{version}dsf.tar.gz
@@ -17,6 +17,8 @@ Patch11: sysvinit-2.86-pidof-man.patch
 Patch12: sysvinit-2.87-sulogin.patch
 Patch13: sysvinit-2.87-wide.patch
 Patch14: sysvinit-2.87-ipv6.patch
+Patch15: sysvinit-2.87-wall-maxlines.patch
+Patch16: sysvinit-2.87-wall-broadcast-message.patch
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: pam >= 0.66-5
 Requires: filesystem >= 2.2.4-1
@@ -67,6 +69,10 @@ management.
 %patch13 -p1 -b .wide
 # Change accepted ipv6 addresses (#585880)
 %patch14 -p1 -b .ipv6
+# Fix counting MAXLINES in wall (#619658)
+%patch15 -p1 -b .maxlines
+# Raise limit for broadcast message (#668476)
+%patch16 -p1 -b .broadcast
 
 
 %build
@@ -140,6 +146,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/sulogin*
 
 %changelog
+* Tue Jan 18 2011 Petr Lautrbach <plautrba@redhat.com> 2.87-4.dsf
+- Fix counting MAXLINES in wall (#619658)
+- Raise limit for broadcast message (#668476)
+
 * Tue Apr 27 2010 Petr Lautrbach <plautrba@redhat.com> 2.87-3.dsf
 - Add -w option to last command for wide output (#585907)
 - Changed IPv4 vs IPv6 heuristic in last command (#585880)
