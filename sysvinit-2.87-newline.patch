@@ -1,0 +1,41 @@
+diff --git a/src/killall5.c b/src/killall5.c
+index a41c23b..e2cb004 100644
+--- a/src/killall5.c
++++ b/src/killall5.c
+@@ -47,6 +47,7 @@ char *Version = "@(#)killall5 2.86 31-Jul-2004 miquels@cistron.nl";
+ #define STATNAMELEN	15
+ #define DO_STAT 1
+ #define NO_STAT 0
++#define BUFLEN	256
+ 
+ /* Info about a process. */
+ typedef struct proc {
+@@ -176,10 +177,11 @@ int readproc(int do_stat)
+ 	PROC		*p, *n;
+ 	struct dirent	*d;
+ 	char		path[256];
+-	char		buf[256];
++	char		buf[BUFLEN];
+ 	char		*s, *q;
+ 	unsigned long	startcode, endcode;
+ 	int		pid, f;
++	int		i, c;
+ 
+ 	/* Open the /proc directory. */
+ 	if (chdir("/proc") == -1) {
+@@ -218,8 +220,13 @@ int readproc(int do_stat)
+ 
+ 		/* Read SID & statname from it. */
+ 		if ((fp = fopen(path, "r")) != NULL) {
+-			buf[0] = 0;
+-			fgets(buf, sizeof(buf), fp);
++                        for (i = 0; i<BUFLEN-1 && (c=fgetc(fp))!=EOF; i++)
++                                buf[i]=c;
++
++                        if (i == 0)
++                                continue;
++
++                        buf[i] = 0;
+ 
+ 			/* See if name starts with '(' */
+ 			s = buf;
