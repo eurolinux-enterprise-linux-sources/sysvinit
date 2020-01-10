@@ -1,0 +1,27 @@
+From bfa123c9f5aded289492a6f18732d288d22fa607 Mon Sep 17 00:00:00 2001
+From: Lukas Nykryn <lnykryn@redhat.com>
+Date: Thu, 26 Feb 2015 13:43:37 +0100
+Subject: [PATCH] count with deleted binaries
+
+---
+ src/killall5.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/killall5.c b/src/killall5.c
+index 29254d0..7d7d13d 100644
+--- a/src/killall5.c
++++ b/src/killall5.c
+@@ -375,7 +375,10 @@ int readproc(int do_stat)
+ 		if (readlink(path, p->pathname, PATH_MAX) == -1) {
+ 			p->pathname = NULL;
+ 		} else {
++			char *ptr = NULL;
+ 			p->pathname[PATH_MAX-1] = '\0';
++			ptr = strstr(p->pathname, " (deleted)");
++			if (ptr) *ptr = '\0';
+ 		}
+ 
+ 		/* Link it into the list. */
+-- 
+1.8.3.1
+

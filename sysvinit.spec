@@ -1,7 +1,7 @@
 Summary: Programs which control basic system processes
 Name: sysvinit
 Version: 2.87
-Release: 5.dsf%{?dist}
+Release: 6.dsf%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: https://alioth.debian.org/frs/download.php/3060/sysvinit-%{version}dsf.tar.gz
@@ -20,6 +20,8 @@ Patch14: sysvinit-2.87-ipv6.patch
 Patch15: sysvinit-2.87-wall-maxlines.patch
 Patch16: sysvinit-2.87-wall-broadcast-message.patch
 Patch17: sysvinit-2.87-newline.patch
+Patch18: 0001-pidof-add-m-option.patch
+Patch19: 0001-count-with-deleted-binaries.patch
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires: pam >= 0.66-5
 Requires: filesystem >= 2.2.4-1
@@ -76,7 +78,10 @@ management.
 %patch16 -p1 -b .broadcast
 # Deal with disappearing files and binaries with a newline in their name (#814132)
 %patch17 -p1 -b .newline
-
+# Add -m option to pidof (#883857)
+%patch18 -p1 -b .pidof-m
+# Count with deleted binaries
+%patch19 -p1 -b .delete
 
 %build
 make %{?_smp_mflags} CC="%{__cc}" CFLAGS="$RPM_OPT_FLAGS -D_GNU_SOURCE" LDFLAGS="" LCRYPT="-lcrypt" -C src
@@ -149,6 +154,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man8/sulogin*
 
 %changelog
+* Thu Feb 26 2015 Lukáš Nykrýn <lnykryn@redhat.com> - 2.87-6.dsf
+- pidof: add -m option (#883857)
+- count with deleted binaries (#760251)
+
 * Tue Jun 18 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 2.87-5.dsf
 - Deal with disappearing files and binaries with a newline in their name (#814132)
 
