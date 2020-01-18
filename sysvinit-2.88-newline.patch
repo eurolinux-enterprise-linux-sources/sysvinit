@@ -1,0 +1,28 @@
+diff --git a/src/killall5.c b/src/killall5.c
+index e73885e..c0723b8 100644
+--- a/src/killall5.c
++++ b/src/killall5.c
+@@ -475,6 +475,7 @@ int readproc(int do_stat)
+ 	char		*s, *q;
+ 	unsigned long	startcode, endcode;
+ 	int		pid, f;
++	int		i, c;
+ 
+ 	/* Open the /proc directory. */
+ 	if (chdir("/proc") == -1) {
+@@ -512,8 +513,13 @@ int readproc(int do_stat)
+ 
+ 		/* Read SID & statname from it. */
+ 		if ((fp = fopen(path, "r")) != NULL) {
+-			buf[0] = 0;
+-			fgets(buf, sizeof(buf), fp);
++                        for (i = 0; i<PATH_MAX && (c=fgetc(fp))!=EOF; i++)
++                                buf[i]=c;
++
++                        if (i == 0)
++                                continue;
++
++                        buf[i] = 0;
+ 
+ 			/* See if name starts with '(' */
+ 			s = buf;

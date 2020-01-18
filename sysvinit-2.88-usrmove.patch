@@ -1,0 +1,34 @@
+diff --git a/src/Makefile b/src/Makefile
+index e2b8028..ad216b8 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -138,23 +138,23 @@ clobber:	cleanobjs
+ distclean:	clobber
+ 
+ install:
+-		$(INSTALL_DIR) $(ROOT)/bin/ $(ROOT)/sbin/
++		$(INSTALL_DIR) $(ROOT)/bin/ $(ROOT)/usr/sbin/
+ 		$(INSTALL_DIR) $(ROOT)/usr/bin/
+ 		for i in $(BIN); do \
+ 			$(INSTALL_EXEC) $$i $(ROOT)/bin/ ; \
+ 		done
+ 		for i in $(SBIN); do \
+-			$(INSTALL_EXEC) $$i $(ROOT)/sbin/ ; \
++			$(INSTALL_EXEC) $$i $(ROOT)/usr/sbin/ ; \
+ 		done
+ 		for i in $(USRBIN); do \
+ 			$(INSTALL_EXEC) $$i $(ROOT)/usr/bin/ ; \
+ 		done
+ 		# $(INSTALL_DIR) $(ROOT)/etc/
+ 		# $(INSTALL_EXEC) initscript.sample $(ROOT)/etc/
+-		ln -sf halt $(ROOT)/sbin/reboot
+-		ln -sf halt $(ROOT)/sbin/poweroff
+-		ln -sf init $(ROOT)/sbin/telinit
+-		ln -sf /sbin/killall5 $(ROOT)/bin/pidof
++		ln -sf halt $(ROOT)/usr/sbin/reboot
++		ln -sf halt $(ROOT)/usr/sbin/poweroff
++		ln -sf init $(ROOT)/usr/sbin/telinit
++		ln -sf /usr/sbin/killall5 $(ROOT)/usr/sbin/pidof
+ 		if [ ! -f $(ROOT)/usr/bin/lastb ]; then \
+ 			ln -sf last $(ROOT)/usr/bin/lastb; \
+ 		fi
