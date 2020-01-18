@@ -1,7 +1,7 @@
 Summary: Programs which control basic system processes
 Name: sysvinit
 Version: 2.88
-Release: 12.dsf%{?dist}
+Release: 14.dsf%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 Source: http://download.savannah.gnu.org/releases/sysvinit/sysvinit-%{version}dsf.tar.bz2
@@ -133,6 +133,12 @@ rm -rf $RPM_BUILD_ROOT
 #%{_mandir}/man8/sulogin*
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 2.88-14.dsf
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 2.88-13.dsf
+- Mass rebuild 2013-12-27
+
 * Tue Jul 16 2013 Lukáš Nykrýn <lnykryn@redhat.com> - 2.88-12.dsf
 - Move pidof and killall5 to /usr/sbin
 
